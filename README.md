@@ -28,3 +28,13 @@ DB_PASSWORD=your_db_password
 DB_NAME=labmetrics_db
 DB_PORT=4000
 PORT=10000
+```
+
+🔌 API Endpoints
+GET /api/metricas - Operational metrics and consumption analytics.
+
+GET /api/cierres-mensuales - Cobas monthly inventory closures and differential calculations.
+
+GET /api/pruebas - Official test catalog (ACN channels and modules).
+
+POST /api/analisis-ia - AI-powered operational insights service.
