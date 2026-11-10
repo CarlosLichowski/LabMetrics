@@ -1,19 +1,30 @@
-#  LabRamos-Metrics
+# LabRamos-Metrics / LabMetrics LIS
 
 > Operational Tracking, Reagent Consumption & TAT Analytics API for Hospital Laboratories.
 
-##  Overview
-**LabRamos-Metrics** is a dedicated analytical microservice built to process, aggregate, and monitor key operational indicators for clinical laboratories. Designed to work alongside [LabRamos](https://labramos.web.app/), this system tracks turnaround times (TAT), reagent waste, and pre-analytical/analytical error rates without handling sensitive Patient Health Information (PHI).
+## Overview
+**LabMetrics** (LabRamos-Metrics) is a dedicated analytical microservice and backend built to process, aggregate, and monitor key operational indicators for clinical laboratories, optimized specifically for **Roche Cobas 6000 (c501 & ISE)** systems. Designed to work alongside [LabRamos](https://labramos.web.app/), this system tracks turnaround times (TAT), reagent differential consumption, and error rates without handling sensitive Patient Health Information (PHI).
 
-##  Tech Stack
-* **Language:** TypeScript (Strict Mode)
-* **Runtime / Framework:** Node.js, Express
-* **Database:** MySQL (Advanced SQL: Window Functions, CTEs, Aggregations)
-* **Analytics & BI:** Power BI (REST API / Direct Queries)
-* **Architecture:** Modular REST API Architecture
+## Tech Stack & Architecture
+- **Language & Runtime:** TypeScript (Strict Mode), Node.js, Express
+- **Database (Cloud Serverless):** TiDB Cloud (MySQL Compatible, SSL/TLS Secure Transport)
+- **Frontend Integration:** React, Vite (Deployed via Firebase Hosting)
+- **Deployment & Hosting:** Render (Web Service Backend)
+- **Analytics & BI:** Power BI (REST API / Direct Queries via SQL Window Functions & Views)
 
-##  Key Features
-* **Throughput & TAT Monitoring:** Tracks batch completion times and processing speeds across lab departments.
-* **Reagent & Scrap Rate Analytics:** Monitors consumption, repeat tests, and preventable waste (e.g., clotting, insufficient sample).
-* **Incident & Error Auditing:** Categorizes operational failures (Pre-analytical, Extraction, Physician Input, Instrumental) for Pareto analysis.
-* **Power BI Integration:** Ready-to-use schemas optimized for BI modeling and executive reporting.
+## Key Features
+- **Differential Reagent Inventory Control:** Automated monthly calculations using opening/closing counts for Roche Cobas c501 and ISE modules.
+- **Throughput & TAT Monitoring:** Tracks batch completion times and processing speeds across lab departments.
+- **Incident & Error Auditing:** Categorizes operational failures (Pre-analytical, Extraction, Instrumental, Reagent) for deep quality control.
+- **Power BI & BI Views:** Pre-compiled database views (`v_cierres_detallados`, `v_consumos_mensuales_diferencial`) optimized for executive reporting.
+
+## Environment Variables (Production / Render)
+To run the backend service successfully, configure the following environment variables in your hosting provider (e.g., Render):
+
+```env
+DB_HOST=gateway01.sa-east-1.prod.aws.tidbcloud.com
+DB_USER=your_db_user
+DB_PASSWORD=your_db_password
+DB_NAME=labmetrics_db
+DB_PORT=4000
+PORT=10000
