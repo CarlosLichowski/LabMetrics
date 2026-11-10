@@ -1,5 +1,7 @@
 # LabRamos-Metrics / LabMetrics LIS
 
+
+
 > Operational Tracking, Reagent Consumption & TAT Analytics API for Hospital Laboratories.
 
 ## Overview
@@ -21,6 +23,8 @@
 ## Environment Variables (Production / Render)
 To run the backend service successfully, configure the following environment variables in your hosting provider (e.g., Render):
 
+
+
 ```env
 DB_HOST=gateway01.sa-east-1.prod.aws.tidbcloud.com
 DB_USER=your_db_user
@@ -38,3 +42,32 @@ GET /api/cierres-mensuales - Cobas monthly inventory closures and differential c
 GET /api/pruebas - Official test catalog (ACN channels and modules).
 
 POST /api/analisis-ia - AI-powered operational insights service.
+
+##  Arquitectura del Sistema
+
+                              ┌──────────────────────────────────────────────┐
+                              │     LabRamos Frontend (React / TypeScript)   │
+                              │   - Floating Trigger (Glow Pulse)            │
+                              │   - Slate Console / Drawer (#0f172a, #2563eb)│
+                              │   - Markdown & Table Parser                  │
+                              │   - Interactive Source Badges Popover        │
+                              └──────────────────────┬───────────────────────┘
+                                                     │ HTTP POST /api/chatbot/query
+                                                     ▼
+                              ┌──────────────────────────────────────────────┐
+                              │      Labmetrics Backend (Express 5 / TS)     │
+                              │      Route & Controller /api/chatbot/query   │
+                              └──────┬───────────────────────┬───────────────┘
+                                     │                       │
+                  ┌──────────────────┴─────────────┐         │
+                  ▼                                ▼         ▼
+    ┌──────────────────────────┐     ┌───────────────────────────┐   ┌──────────────────────────┐
+    │ Knowledge Base & RAG     │     │ Base de Datos Operativa   │   │ Motor de Inferencia      │
+    │  - Reagent Inserts       │     │  - cierres_diarios        │   │  - Gemini 2.5 Flash /    │
+    │    (CREJ2, GLUC3, HIL)   │     │  - registro_incidencias   │   │    OpenAI GPT-4o-mini    │
+    │  - Analyzer Manuals      │     │  - inventario_reactivos   │   │  - Local Clinical Logic  │
+    │    (Cobas 6000, LauraXL) │     │  - pruebas & secciones    │   │    Synthesizer (Offline) │
+    │  - Derivaciones Hospital │     │                           │   │                          │
+    └──────────────────────────┘     └───────────────────────────┘   └──────────────────────────┘
+
+
